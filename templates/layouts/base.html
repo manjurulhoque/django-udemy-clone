@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Django Udemy Clone</title>
+
+    {% include 'partials/header.html' %}
+</head>
+<body class="gray-bg">
+{% include 'partials/navbar.html' %}
+
+{% block content %}{% endblock %}
+
+{% include 'partials/footer.html' %}
+{% include 'partials/scripts.html' %}
+</body>
+</html>

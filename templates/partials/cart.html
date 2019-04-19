@@ -1,0 +1,46 @@
+{% load static %}
+
+<div class="icon">
+    <a href=""><i class="fas fa-shopping-cart"></i></a>
+    <span class="number">0</span>
+</div>
+<div class="dropdown course-list-dropdown corner-triangle top-right">
+    <div class="list-wrapper">
+        <div class="item-list">
+            <ul>
+                <li>
+                    <div class="item clearfix">
+                        <div class="item-image">
+                            <a href="">
+                                <img src="{% static 'images/learning.jpg' %}" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="item-details">
+                            <a href="#">
+                                <div class="course-name">Name</div>
+                                {#                                <div class="instructor-name">first_name last_name</div>#}
+                                <div class="item-price">
+                                    <span class="current-price">$5</span>
+                                    {#                                    {{ --<span class="original-price">$300</span>--}}#}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="dropdown-footer">
+            <div class="cart-total-price clearfix">
+                <span>Total:</span>
+                <div class="float-right">
+                    <span class="current-price">$0</span>
+                </div>
+            </div>
+            <a href="#">Go to cart</a>
+        </div>
+    </div>
+    <div class="empty-box text-center d-none">
+        <p>Your cart is empty.</p>
+        <a href="">Keep Shopping</a>
+    </div>
+</div>
