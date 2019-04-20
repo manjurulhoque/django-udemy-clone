@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.utils.timezone import now
 
 from accounts.models import User
 
@@ -31,6 +32,8 @@ class Course(models.Model):
     thumbnail = models.ImageField(upload_to='thumbnails/')
     video_url = models.CharField(max_length=100)
     is_published = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=now)
+    updated_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return self.title

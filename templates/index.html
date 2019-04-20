@@ -70,8 +70,7 @@
                         {% for top_course in top_courses %}
 
                             <div class="course-box-wrap">
-                                <a href=""
-                                   class="has-popover">
+                                <a href="{% url 'courses:course-details' top_course.slug %}" class="has-popover">
                                     <div class="course-box">
                                         <div class="course-badge position best-seller">Best seller</div>
                                         <div class="course-image">
