@@ -16,12 +16,14 @@
                     <a href=""><i class="fas fa-angle-left"></i>Menu</a>
                 </li>
 
-                <li>
-                    <a href="#">
-                        <span class="icon"><i class="fa fa-caret-right"></i></span>
-                        <span>Django</span>
-                    </a>
-                </li>
+                {% for category in categories %}
+                    <li>
+                        <a href="#">
+                            <span class="icon"><i class="fa fa-caret-right"></i></span>
+                            <span>{{ category.title }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
         </li>
 
