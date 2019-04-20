@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from django.views.generic import DetailView
 
-# Create your views here.
+from courses.models import Course
+
+
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = 'courses/details.html'
+    context_object_name = 'course'

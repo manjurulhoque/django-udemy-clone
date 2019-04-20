@@ -2,5 +2,14 @@ from django.contrib import admin
 
 from .models import Category, Course
 
-admin.site.register(Category)
-admin.site.register(Course)
+
+class CourseAdmin(admin.ModelAdmin):
+    exclude = ('slug',)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    exclude = ('slug',)
+
+
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Course, CourseAdmin)

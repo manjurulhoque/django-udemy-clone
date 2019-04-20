@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 from accounts.models import User
 
@@ -9,6 +10,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
 
 
 class Course(models.Model):
@@ -29,3 +34,7 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Course, self).save(*args, **kwargs)
