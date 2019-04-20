@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load total_minutes %}
 
 {% block content %}
 
@@ -30,8 +31,8 @@
                             {#                            {{ --Created by--}}#}
                             {#                            {{ --<a href="">first_name last_name</a>--}}#}
                             {#                            {{ --</span>--}}#}
-                            <span class="last-updated-date">Created on {{ course.created_at }}</span>
-                            <span class="last-updated-date">Last updated on {{ course.updated_at }}</span>
+                            <span class="last-updated-date">Created on {{ course.created_at|date }}</span>
+                            <span class="last-updated-date">Last updated on {{ course.updated_at|date }}</span>
                             <span class="comment">
                                 <i class="fas fa-comment"></i>English
                             </span>
@@ -53,7 +54,7 @@
                     <div class="what-you-get-box">
                         <div class="what-you-get-title">What i will learn?</div>
                         <ul class="what-you-get__items">
-                            <li>{{ course.outcomes }}</li>
+                            <li>{{ course.outcome }}</li>
                         </ul>
                     </div>
                     <br>
@@ -62,7 +63,7 @@
                             <div class="title float-left">Lessons for this course</div>
                             <div class="float-right">
                                 <span class="total-lectures">
-                                    20 lessons
+                                    {{ course.lessons.count }} lessons
                                 </span>
                                 <span class="total-time">
                                     2 hours
@@ -80,21 +81,23 @@
                                     </div>
                                     <div class="float-right">
                                         <span class="total-lectures">
-                                            20 lessons
+                                             {{ course.lessons.count }} lessons
                                         </span>
                                         <span class="total-time">
-                                            12: 30 minute
+                                            {{ course.lessons|total_minutes }} minute
                                         </span>
                                     </div>
                                 </div>
 
                                 <div id="collapse" class="lecture-list collapse">
                                     <ul>
-                                        <li class="lecture has-preview">
-                                            <span class="lecture-title">Lesson Title</span>
-                                            <span class="lecture-time float-right">Lesson Duration</span>
-                                            <!-- <span class="lecture-preview float-right" data-toggle="modal" data-target="#CoursePreviewModal">Preview</span> -->
-                                        </li>
+                                        {% for lesson in course.lessons.all %}
+                                            <li class="lecture has-preview">
+                                                <span class="lecture-title">{{ lesson.title }}</span>
+                                                <span class="lecture-time float-right">{{ lesson.duration }}</span>
+                                                <!-- <span class="lecture-preview float-right" data-toggle="modal" data-target="#CoursePreviewModal">Preview</span> -->
+                                            </li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                             </div>
@@ -281,27 +284,25 @@
                                 <input type="hidden" id="total_price_of_checking_out" value="{{ course.price }}">
                             </div>
 
-{#                            {{ --<div class="buy-btns">--}}#}
-{#                            {{ --<button class="btn btn-buy-now" type="button">Already purchased</button>--}}#}
-{#                            {{ --</div>--}}#}
+                            {#                            {{ --<div class="buy-btns">--}}#}
+                            {#                            {{ --<button class="btn btn-buy-now" type="button">Already purchased</button>--}}#}
+                            {#                            {{ --</div>--}}#}
                             <div class="buy-btns">
-{#                                @if(Cart::get($course->id))#}
-{#                                <a href="" class="btn btn-buy-now" id="course_2" onclick="handleBuyNow(this)">Buy#}
-{#                                    now</a>#}
-{#                                <button class="btn btn-add-cart addedToCart" type="button" id="{{ $course->id }}"#}
-{#                                        onclick="handleCartItems(this)">Added to cart#}
-{#                                </button>#}
-{#                                @else#}
-                                <form action="#" method="post">
+                                {#                                @if(Cart::get($course->id))#}
+                                {#                                <a href="" class="btn btn-buy-now" id="course_2" onclick="handleBuyNow(this)">Buy#}
+                                {#                                    now</a>#}
+                                {#                                <button class="btn btn-add-cart addedToCart" type="button" id="{{ $course->id }}"#}
+                                {#                                        onclick="handleCartItems(this)">Added to cart#}
+                                {#                                </button>#}
+                                {#                                @else#}
+                                <form action="{% url 'cart:cart_add' course.slug %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" value="" name="course_id">
                                     <input type="hidden" value="" name="name">
                                     <input type="hidden" value="" name="price">
                                     <input type="hidden" value="1" name="quantity">
 
-                                    <button class="btn btn-add-cart" type="submit" id="">Add to
-                                        cart
-                                    </button>
+                                    <button class="btn btn-add-cart" type="submit" id="cart">Add to cart</button>
                                 </form>
                             </div>
 

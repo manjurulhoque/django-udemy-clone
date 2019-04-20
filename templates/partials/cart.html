@@ -2,41 +2,63 @@
 
 <div class="icon">
     <a href=""><i class="fas fa-shopping-cart"></i></a>
-    <span class="number">0</span>
+    {% with total_items=cart|length %}
+        {% if cart|length > 0 %}
+            <span class="number">{{ cart|length }}</span>
+        {% else %}
+            <span class="number">0</span>
+        {% endif %}
+    {% endwith %}
 </div>
 <div class="dropdown course-list-dropdown corner-triangle top-right">
     <div class="list-wrapper">
         <div class="item-list">
             <ul>
-                <li>
-                    <div class="item clearfix">
-                        <div class="item-image">
-                            <a href="">
-                                <img src="{% static 'images/learning.jpg' %}" alt="" class="img-fluid">
-                            </a>
-                        </div>
-                        <div class="item-details">
-                            <a href="#">
-                                <div class="course-name">Name</div>
-                                {#                                <div class="instructor-name">first_name last_name</div>#}
-                                <div class="item-price">
-                                    <span class="current-price">$5</span>
-                                    {#                                    {{ --<span class="original-price">$300</span>--}}#}
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </li>
+                {% with total_items=cart|length %}
+                    {% if cart|length > 0 %}
+                        {% for item in cart %}
+                            {% with course=item.course %}
+                                <li>
+                                    <div class="item clearfix">
+                                        <div class="item-image">
+                                            <a href="">
+                                                <img src="{% static 'images/learning.jpg' %}" alt="" class="img-fluid">
+                                            </a>
+                                        </div>
+                                        <div class="item-details">
+
+                                            {#                                    <a href="{% url "cart:cart_detail" %}" style="color: #ffffff">#}
+                                            {#                                        {{ total_items }} item {{ total_items|pluralize }},#}
+                                            {#                                        Kshs. {{ cart.get_total_price }}#}
+                                            {#                                    </a>#}
+                                            <a href="#">
+                                                <div class="course-name">{{ course.title }}</div>
+                                                {#                                                <div class="instructor-name">first_name last_name</div>#}
+                                                <div class="item-price">
+                                                    <span class="current-price">${{ course.price }}</span>
+                                                    {#                                    {{ --<span class="original-price">$300</span>--}}#}
+                                                </div>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endwith %}
+                        {% endfor %}
+                    {% else %}
+                        Your cart is empty.
+                    {% endif %}
+                {% endwith %}
             </ul>
         </div>
         <div class="dropdown-footer">
             <div class="cart-total-price clearfix">
                 <span>Total:</span>
                 <div class="float-right">
-                    <span class="current-price">$0</span>
+                    <span class="current-price">${{ cart.get_total_price }}</span>
                 </div>
             </div>
-            <a href="#">Go to cart</a>
+            <a href="{% url 'cart:cart_detail' %}">Go to cart</a>
         </div>
     </div>
     <div class="empty-box text-center d-none">

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'accounts',
     'udemy',
     'courses',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # custom
                 'courses.context_processors.categories_processor',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -124,3 +127,5 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 AUTH_USER_MODEL = 'accounts.User'
+
+CART_SESSION_SLUG = 'cart'

@@ -1,0 +1,102 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <section class="page-header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/">
+                                    <i class="fas fa-home"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">Shopping Cart</a></li>
+                        </ol>
+                    </nav>
+                    <h1 class="page-title">Shopping Cart</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="cart-list-area">
+        <div class="container">
+            {% with total_items=cart|length %}
+                {% if cart|length > 0 %}
+                    <div class="row" id="cart_items_details">
+                        <div class="col-lg-9">
+
+                            <div class="in-cart-box">
+                                <div class="title">{{ total_items }} courses in cart</div>
+                                <div class="">
+                                    <ul class="cart-course-list">
+                                        {% for item in cart %}
+                                            {% with course=item.course %}
+                                                <li>
+                                                    <div class="cart-course-wrapper">
+                                                        <div class="image">
+                                                            <a href="">
+                                                                <img src="{% static 'images/learning.jpg' %}" alt=""
+                                                                     class="img-fluid">
+                                                            </a>
+                                                        </div>
+                                                        <div class="details">
+                                                            <a href="">
+                                                                <div class="name">{{ course.title }}</div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="move-remove">
+                                                            <div>
+                                                                <form action="" method="post">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden" value="{{ course.slug }}">
+                                                                    <input type="submit" class="btn-success"
+                                                                           value="Remove">
+                                                                </form>
+                                                            </div>
+                                                            <!-- <div>Move to Wishlist</div> -->
+                                                        </div>
+                                                        <div class="price">
+                                                            <a href="">
+                                                                <div class="current-price">
+                                                                    {{ course.price }}
+                                                                </div>
+                                                                <span class="coupon-tag">
+                                                                    <i class="fas fa-tag"></i>
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endwith %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="cart-sidebar">
+                                <div class="total">Total:</div>
+                                <div class="total-price">
+                                    $<span id="total_price_of_checking_out">{{ cart.get_total_price }}</span>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-block checkout-btn"
+                                        onclick="handleCheckOut()">Checkout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="title">Cart is empty</div>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </section>
+
+{% endblock %}
