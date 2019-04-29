@@ -2,7 +2,9 @@ from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
+from cart.cart import Cart
 from courses.models import Course, Category
+from udemy.models import Enroll
 
 
 class CourseDetailView(DetailView):
@@ -24,6 +26,20 @@ class CourseDetailView(DetailView):
             raise Http404("No %(verbose_name)s found matching the query" %
                           {'verbose_name': self.model._meta.verbose_name})
         return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.get_object(self.get_queryset())
+        if self.request.user.is_authenticated:
+            if Enroll.objects.get(course=course, user_id=self.request.user.id):
+                context['is_enrolled'] = True
+            else:
+                cart = Cart(self.request)
+                context['is_in_cart'] = cart.has_course(course)
+        else:
+            cart = Cart(self.request)
+            context['is_in_cart'] = cart.has_course(course)
+        return context
 
 
 class CoursesByCategoryListView(ListView):

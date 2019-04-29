@@ -288,22 +288,32 @@
                             {#                            {{ --<button class="btn btn-buy-now" type="button">Already purchased</button>--}}#}
                             {#                            {{ --</div>--}}#}
                             <div class="buy-btns">
-                                {#                                @if(Cart::get($course->id))#}
-                                {#                                <a href="" class="btn btn-buy-now" id="course_2" onclick="handleBuyNow(this)">Buy#}
-                                {#                                    now</a>#}
-                                {#                                <button class="btn btn-add-cart addedToCart" type="button" id="{{ $course->id }}"#}
-                                {#                                        onclick="handleCartItems(this)">Added to cart#}
-                                {#                                </button>#}
-                                {#                                @else#}
-                                <form action="{% url 'cart:cart_add' course.slug %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" value="" name="course_id">
-                                    <input type="hidden" value="" name="name">
-                                    <input type="hidden" value="" name="price">
-                                    <input type="hidden" value="1" name="quantity">
+                                {% if is_enrolled %}
+                                    <button class="btn btn-add-cart" type="button"
+                                            style="background-color: #00796b; border-color: #08796f; color: #ffffff">
+                                        Go to course
+                                    </button>
+                                {% else %}
+                                    {% if is_in_cart %}
+                                        {#                                    <a href="" class="btn btn-buy-now" id="course_2" onclick="handleBuyNow(this)">Buy#}
+                                        {#                                        now</a>#}
+                                        <button class="btn btn-add-cart" type="button"
+                                                style="background-color: #ec5252; border-color: #ec5252; color: #ffffff">
+                                            Added to cart
+                                        </button>
+                                    {% else %}
+                                        <form action="{% url 'cart:cart_add' course.slug %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="" name="course_id">
+                                            <input type="hidden" value="" name="name">
+                                            <input type="hidden" value="" name="price">
+                                            <input type="hidden" value="1" name="quantity">
 
-                                    <button class="btn btn-add-cart" type="submit" id="cart">Add to cart</button>
-                                </form>
+                                            <button class="btn btn-add-cart" type="submit" id="cart">Add to cart
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
                             </div>
 
                             <div class="includes">

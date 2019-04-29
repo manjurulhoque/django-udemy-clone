@@ -83,13 +83,7 @@
                                         </a>
                                     </li>
                                     <li class="dropdown-user-logout user-dropdown-menu-item">
-                                        <a href="#" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">Logout</a>
-
-                                        <form id="logout-form" action="#" method="POST"
-                                              style="display: none;">
-                                            @csrf
-                                        </form>
+                                        <a href="{% url 'accounts:logout' %}">Logout</a>
                                     </li>
                                 </ul>
                             </div>
