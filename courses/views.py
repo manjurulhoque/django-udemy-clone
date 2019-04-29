@@ -1,8 +1,8 @@
 from django.http import Http404
 from django.shortcuts import render
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
-from courses.models import Course
+from courses.models import Course, Category
 
 
 class CourseDetailView(DetailView):
@@ -24,3 +24,20 @@ class CourseDetailView(DetailView):
             raise Http404("No %(verbose_name)s found matching the query" %
                           {'verbose_name': self.model._meta.verbose_name})
         return obj
+
+
+class CoursesByCategoryListView(ListView):
+    model = Course
+    template_name = 'courses/courses_by_category.html'
+    context_object_name = 'courses'
+
+    def get_queryset(self):
+        category = Category.objects.get(slug=self.kwargs['slug'])
+        return self.model.objects.filter(category_id=category.id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = Category.objects.get(slug=self.kwargs['slug'])
+        context['category'] = category
+        context['categories'] = Category.objects.all()
+        return context

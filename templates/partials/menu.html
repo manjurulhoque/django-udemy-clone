@@ -18,7 +18,7 @@
 
                 {% for category in categories %}
                     <li>
-                        <a href="#">
+                        <a href="{% url 'courses:course-by-category' category.slug %}">
                             <span class="icon"><i class="fa fa-caret-right"></i></span>
                             <span>{{ category.title }}</span>
                         </a>
