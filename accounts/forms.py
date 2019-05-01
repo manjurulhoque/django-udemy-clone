@@ -82,3 +82,14 @@ class UserRegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["first_name"].widget.attrs.update({'placeholder': 'Enter first name'})
+        self.fields["last_name"].widget.attrs.update({'placeholder': 'Enter last name'})
+
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name"]

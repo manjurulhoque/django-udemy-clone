@@ -5,12 +5,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, FormView, RedirectView, ListView, DetailView
+from django.views.generic import CreateView, FormView, RedirectView, ListView, DetailView, UpdateView
 
 from courses.models import Category, Lesson, Course
 from udemy.models import Enroll
 from .models import User
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, ProfileUpdateForm
 
 
 class RegisterView(CreateView):
@@ -173,3 +173,35 @@ class LessonView(DetailView):
         context["lessons"] = self.model.objects.filter(course=course)
         context["course"] = course
         return context
+
+
+class ProfileUpdateView(UpdateView):
+    model = User
+    template_name = "accounts/profile.html"
+    context_object_name = "user"
+    form_class = ProfileUpdateForm
+    success_url = reverse_lazy("accounts:my-profile")
+
+    @method_decorator(login_required(login_url=reverse_lazy('accounts:login')))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def get_initial(self):
+        return {"first_name": self.request.user.first_name, "last_name": self.request.user.last_name}
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(self.model, pk=self.request.user.pk)
+
+    def form_valid(self, form):
+        user = self.get_object()
+        user.first_name = self.request.POST["first_name"]
+        user.last_name = self.request.POST["last_name"]
+        user.save()
+        return redirect("accounts:my-profile")
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
