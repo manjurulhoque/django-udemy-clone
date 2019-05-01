@@ -5,4 +5,5 @@ app_name = 'udemy'
 
 urlpatterns = [
     path('', HomeListView.as_view(), name='home'),
+    path('users/my-courses', EnrolledCoursesListView.as_view(), name='enrolled-courses'),
 ]
