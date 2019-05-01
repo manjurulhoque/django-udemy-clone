@@ -1,9 +1,14 @@
 from django.contrib import messages, auth
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
-from django.views.generic import CreateView, FormView, RedirectView
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, FormView, RedirectView, ListView, DetailView
 
+from courses.models import Category, Lesson, Course
+from udemy.models import Enroll
 from .models import User
 from .forms import UserRegistrationForm, UserLoginForm
 
@@ -81,3 +86,90 @@ class LogoutView(RedirectView):
         auth.logout(request)
         messages.success(request, 'You are now logged out')
         return super(LogoutView, self).get(request, *args, **kwargs)
+
+
+class EnrolledCoursesListView(ListView):
+    model = Enroll
+    template_name = 'courses/enrolled_courses.html'
+    context_object_name = 'enrolls'
+
+    @method_decorator(login_required(login_url=reverse_lazy('accounts:login')))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.select_related('course').filter(user_id=self.request.user.id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class StartLessonView(DetailView):
+    model = Lesson
+    template_name = 'lessons/lessons_by_course.html'
+    context_object_name = 'lesson'
+
+    @method_decorator(login_required(login_url=reverse_lazy('accounts:login')))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        course = get_object_or_404(Course, slug=self.kwargs["slug"])
+        queryset = queryset.filter(course=course)
+        try:
+            # Get the single item from the filtered queryset
+            obj = queryset[:1].get()
+            url = obj.video_url
+            url = url.replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")
+            obj.video_url = url
+        except queryset.model.DoesNotExist:
+            raise Http404("No %(verbose_name)s found matching the query" %
+                          {'verbose_name': self.model._meta.verbose_name})
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = get_object_or_404(Course, slug=self.kwargs["slug"])
+        context["lessons"] = self.model.objects.filter(course=course)
+        context["course"] = course
+        return context
+
+
+class LessonView(DetailView):
+    model = Lesson
+    template_name = 'lessons/lessons_by_course.html'
+    context_object_name = 'lesson'
+
+    @method_decorator(login_required(login_url=reverse_lazy('accounts:login')))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        lesson_id = self.kwargs['id']
+        queryset = queryset.filter(id=lesson_id)
+        try:
+            # Get the single item from the filtered queryset
+            obj = queryset.get()
+            url = obj.video_url
+            url = url.replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")
+            obj.video_url = url
+        except queryset.model.DoesNotExist:
+            raise Http404("No %(verbose_name)s found matching the query" %
+                          {'verbose_name': self.model._meta.verbose_name})
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = get_object_or_404(Course, slug=self.kwargs["slug"])
+        context["lessons"] = self.model.objects.filter(course=course)
+        context["course"] = course
+        return context
