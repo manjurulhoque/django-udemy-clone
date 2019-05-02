@@ -192,13 +192,6 @@ class ProfileUpdateView(UpdateView):
     def get_object(self, queryset=None):
         return get_object_or_404(self.model, pk=self.request.user.pk)
 
-    def form_valid(self, form):
-        user = self.get_object()
-        user.first_name = self.request.POST["first_name"]
-        user.last_name = self.request.POST["last_name"]
-        user.save()
-        return redirect("accounts:my-profile")
-
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'udemy',
     'courses',
     'cart',
+    'autofixture'
 ]
 
 MIDDLEWARE = [
