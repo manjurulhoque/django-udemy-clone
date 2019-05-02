@@ -15,7 +15,7 @@ Used Tech Stack
 ## Course Details page
 <img src="screenshots/two.png" height="800">
 
-## Job details
+## Enrolled course details
 <img src="screenshots/three.png" height="800">
 
 Show your support by 🌟 the project!!
