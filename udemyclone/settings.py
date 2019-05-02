@@ -24,8 +24,6 @@ SECRET_KEY = '83e21k1f8kjn1a2=$x5i=7$=x0@!_c$54xxu^^n(u)3j_js-(k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -122,7 +120,7 @@ USE_TZ = True
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-ALLOWED_HOSTS = ['django-portal.herokuapp.com', 'localhost', '*']
+ALLOWED_HOSTS = ['django-udemy-clone.herokuapp.com', 'localhost', '*']
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
