@@ -31,7 +31,7 @@ class CourseDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         course = self.get_object(self.get_queryset())
         if self.request.user.is_authenticated:
-            if Enroll.objects.get(course=course, user_id=self.request.user.id):
+            if Enroll.objects.filter(course=course, user_id=self.request.user.id).exists():
                 context['is_enrolled'] = True
             else:
                 cart = Cart(self.request)
