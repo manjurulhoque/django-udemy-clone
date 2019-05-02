@@ -36,4 +36,4 @@ def cart_checkout(request):
         Enroll.objects.create(course=course, user_id=request.user.id)
     messages.success(request, 'Successfully checked out!')
     carts.clear()
-    return reverse_lazy('cart:cart_detail')
+    return redirect(reverse_lazy('cart:cart_detail'))

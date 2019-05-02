@@ -12,7 +12,7 @@ Used Tech Stack
 ## Home page
 <img src="screenshots/one.png" height="800">
 
-## Add new position as employer
+## Course Details page
 <img src="screenshots/two.png" height="800">
 
 ## Job details
