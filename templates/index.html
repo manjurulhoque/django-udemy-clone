@@ -11,9 +11,9 @@
                     <div class="home-banner-wrap">
                         <h2>Best place for learning</h2>
                         <p>Learn from any topic, choose from category</p>
-                        <form class="" action="" method="post">
+                        <form class="" action="{% url 'udemy:search' %}" method="get">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="search_string"
+                                <input type="text" class="form-control" name="q"
                                        placeholder="what do you want to learn?">
                                 <div class="input-group-append">
                                     <button class="btn" type="submit"><i class="fas fa-search"></i></button>

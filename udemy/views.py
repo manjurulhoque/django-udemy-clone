@@ -17,3 +17,12 @@ class HomeListView(ListView):
         context = super().get_context_data(**kwargs)
         context['top_courses'] = self.model.objects.all().order_by('?')
         return context
+
+
+class SearchView(ListView):
+    model = Course
+    template_name = 'search.html'
+    context_object_name = 'courses'
+
+    def get_queryset(self):
+        return self.model.objects.filter(title__contains=self.request.GET['q'])
