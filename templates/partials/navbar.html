@@ -18,10 +18,9 @@
 
                     {% include 'partials/menu.html' %}
 
-                    <form class="inline-form" action=""
-                          method="post" style="width: 100%;">
+                    <form class="inline-form" action="{% url 'udemy:search' %}" method="get" style="width: 100%;">
                         <div class="input-group search-box mobile-search">
-                            <input type="text" name='search_string' class="form-control"
+                            <input type="text" name='q' class="form-control"
                                    placeholder="Search for courses">
                             <div class="input-group-append">
                                 <button class="btn" type="submit"><i class="fas fa-search"></i></button>
