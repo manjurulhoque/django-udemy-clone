@@ -23,6 +23,7 @@ class SearchView(ListView):
     model = Course
     template_name = 'search.html'
     context_object_name = 'courses'
+    paginate_by = 10
 
     def get_queryset(self):
         return self.model.objects.filter(title__contains=self.request.GET['q'])
