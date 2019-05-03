@@ -10,7 +10,7 @@
                 <div class="col-lg-8">
                     <div class="course-header-wrap">
                         <h1 class="title">{{ course.title }}</h1>
-                        <p class="subtitle">{{ course.short_description }}</p>
+                        <p class="subtitle">{{ course.short_description|truncatewords:20 }}</p>
                         <div class="rating-row">
                             {#                            {{ --<span class="course-badge best-seller">Best seller</span>--}}#}
                             {% for i in i|rjust:5 %}

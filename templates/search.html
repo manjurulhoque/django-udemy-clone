@@ -35,13 +35,13 @@
                                 <li>
                                     <div class="course-box-2">
                                         <div class="course-image">
-                                            <a href="">
+                                            <a href="{% url 'courses:course-details' course.slug %}">
                                                 <img src="{{ course.thumbnail.url }}"
                                                      style="height: 250px; width: 250px" alt="" class="img-fluid">
                                             </a>
                                         </div>
                                         <div class="course-details">
-                                            <a href=""
+                                            <a href="{% url 'courses:course-details' course.slug %}"
                                                class="course-title">{{ course.title }}</a>
                                             <a href="" class="course-instructor">
                                                 <span class="instructor-name">Instructor Name</span>
