@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load humanize %}
 {% load total_minutes %}
 
 {% block content %}
@@ -20,7 +21,7 @@
                                     <i class="fas fa-star"></i>
                                 {% endif %}
                             {% endfor %}
-                            <span class="d-inline-block average-rating"><?php echo 5; ?></span>
+                            <span class="d-inline-block average-rating">5</span>
                             <span>(20 ratings)</span>
                             <span class="enrolled-num">
                                 100 students enrolled
@@ -84,7 +85,7 @@
                                              {{ course.lessons.count }} lessons
                                         </span>
                                         <span class="total-time">
-                                            {{ course.lessons|total_minutes }} minute
+                                            {{ course.lessons|total_minutes | floatformat:2 }} minute
                                         </span>
                                     </div>
                                 </div>
@@ -94,7 +95,7 @@
                                         {% for lesson in course.lessons.all %}
                                             <li class="lecture has-preview">
                                                 <span class="lecture-title">{{ lesson.title }}</span>
-                                                <span class="lecture-time float-right">{{ lesson.duration }}</span>
+                                                <span class="lecture-time float-right">{{ lesson.duration | floatformat:2 }}</span>
                                                 <!-- <span class="lecture-preview float-right" data-toggle="modal" data-target="#CoursePreviewModal">Preview</span> -->
                                             </li>
                                         {% endfor %}
@@ -280,8 +281,8 @@
                         <div class="course-sidebar-text-box">
                             <div class="price">
                                 <span class="current-price">
-                                    $<span class="current-price">{{ course.price }}</span></span>
-                                <input type="hidden" id="total_price_of_checking_out" value="{{ course.price }}">
+                                    $<span class="current-price">{{ course.price | floatformat:2 | intcomma }}</span></span>
+                                <input type="hidden" id="total_price_of_checking_out" value="{{ course.price | floatformat:2 }}">
                             </div>
 
                             {#                            {{ --<div class="buy-btns">--}}#}

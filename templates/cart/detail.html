@@ -1,6 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block content %}
 
@@ -65,7 +66,7 @@
                                                         <div class="price">
                                                             <a href="">
                                                                 <div class="current-price">
-                                                                    {{ course.price }}
+                                                                    ${{ course.price | floatformat:2 | intcomma }}
                                                                 </div>
                                                                 <span class="coupon-tag">
                                                                     <i class="fas fa-tag"></i>
@@ -84,7 +85,7 @@
                             <div class="cart-sidebar">
                                 <div class="total">Total:</div>
                                 <div class="total-price">
-                                    $<span id="total_price_of_checking_out">{{ cart.get_total_price }}</span>
+                                    $<span id="total_price_of_checking_out">{{ cart.get_total_price | floatformat:2 | intcomma }}</span>
                                 </div>
                                 <a href="{% url "cart:cart_checkout" %}" class="btn btn-primary btn-block checkout-btn">Checkout
                                 </a>

@@ -40,7 +40,7 @@
                 {% endfor %}
                 <br>
                 <input class="btn btn-success" type="submit" value='{{ title }}'>&nbsp; &nbsp;
-                {% if request.path == "/login/" %}
+                {% if request.path == "/login" %}
                     Don't Have an Account <a href="{% url 'accounts:register' %}">Register Here.</a>
                 {% else %}
                     Have an Account <a href="{% url 'accounts:login' %}">Login Here.</a>

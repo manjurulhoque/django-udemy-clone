@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
@@ -28,6 +29,7 @@ def cart_detail(request):
     return render(request, 'cart/detail.html', {'cart': cart})
 
 
+@login_required(login_url='/login')
 def cart_checkout(request):
     carts = Cart(request)
     for cart in carts:
