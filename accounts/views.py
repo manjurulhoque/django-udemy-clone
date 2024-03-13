@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, FormView, RedirectView, ListView, DetailView, UpdateView
 
 from courses.models import Category, Lesson, Course
-from udemy.models import Enroll
+from eduspace.models import Enroll
 from .models import User
 from .forms import UserRegistrationForm, UserLoginForm, ProfileUpdateForm
 

@@ -4,7 +4,7 @@ from django.views.generic import DetailView, ListView
 
 from cart.cart import Cart
 from courses.models import Course, Category
-from udemy.models import Enroll
+from eduspace.models import Enroll
 
 
 class CourseDetailView(DetailView):

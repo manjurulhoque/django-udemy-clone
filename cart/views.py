@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 
 from courses.models import Course
-from udemy.models import Enroll
+from eduspace.models import Enroll
 from .cart import Cart
 
 

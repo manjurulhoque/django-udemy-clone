@@ -13,12 +13,12 @@
 
                     <a class="navbar-brand" href="/">
                         {#                        {{ --<img src="" alt="" height="30">--}}#}
-                        Udemy Clone
+                        EduSpace
                     </a>
 
                     {% include 'partials/menu.html' %}
 
-                    <form class="inline-form" action="{% url 'udemy:search' %}" method="get" style="width: 100%;">
+                    <form class="inline-form" action="{% url 'eduspace:search' %}" method="get" style="width: 100%;">
                         <div class="input-group search-box mobile-search">
                             <input type="text" name='q' class="form-control"
                                    placeholder="Search for courses">
