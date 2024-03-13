@@ -1,1 +1,0 @@
-web: gunicorn udemyclone.wsgi --log-file -
