@@ -197,15 +197,13 @@ class ProfileUpdateView(UpdateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(self.request, *args, **kwargs)
 
-    def get_initial(self):
-        return {"first_name": self.request.user.first_name, "last_name": self.request.user.last_name}
-
     def get_object(self, queryset=None):
-        return get_object_or_404(self.model, pk=self.request.user.pk)
+        return self.request.user
 
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+    def form_valid(self, form):
+        messages.success(self.request, 'Profile updated successfully!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Error updating profile. Please check the form.')
+        return super().form_invalid(form)

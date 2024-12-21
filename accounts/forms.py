@@ -45,8 +45,8 @@ class UserRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].icon = '<span class="input-field-icon"><i class="fas fa-envelope"></i></span>'
-        self.fields['first_name'].widget.attrs.update({'placeholder': 'Enter First Name'})
-        self.fields['last_name'].widget.attrs.update({'placeholder': 'Enter Last Name'})
+        self.fields['first_name'].widget.attrs.update({'placeholder': 'Enter first name'})
+        self.fields['last_name'].widget.attrs.update({'placeholder': 'Enter last name'})
         self.fields['username'].widget.attrs.update({'placeholder': 'Username'})
         self.fields['email'].widget.attrs.update({'placeholder': 'Email'})
         self.fields['password1'].widget.attrs.update({'placeholder': 'Enter password'})
@@ -85,11 +85,12 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["first_name"].widget.attrs.update({'placeholder': 'Enter first name'})
-        self.fields["last_name"].widget.attrs.update({'placeholder': 'Enter last name'})
-
     class Meta:
         model = User
-        fields = ["first_name", "last_name"]
+        fields = ['first_name', 'last_name', 'phone']  # Remove username if it's not needed for profile updates
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Make fields not required
+        self.fields['first_name'].required = False
+        self.fields['last_name'].required = False

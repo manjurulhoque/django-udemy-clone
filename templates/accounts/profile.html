@@ -3,80 +3,272 @@
 {% load static %}
 
 {% block content %}
+<section class="profile-section py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center pt-4">
+                        <div class="profile-image mb-3">
+                            <img src="{% static 'images/avatar.png' %}" alt="Profile Picture" 
+                                 class="rounded-circle img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                            <div class="upload-overlay">
+                                <label for="profile-upload" class="mb-0">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                                <input type="file" id="profile-upload" class="d-none">
+                            </div>
+                        </div>
+                        <h5 class="mb-1">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
+                        <p class="text-muted">{{ request.user.email }}</p>
+                        
+                        <div class="profile-stats d-flex justify-content-around mb-4">
+                            <div class="stat-item">
+                                <h6 class="mb-0">12</h6>
+                                <small class="text-muted">Courses</small>
+                            </div>
+                            <div class="stat-item">
+                                <h6 class="mb-0">4.8</h6>
+                                <small class="text-muted">Rating</small>
+                            </div>
+                            <div class="stat-item">
+                                <h6 class="mb-0">85%</h6>
+                                <small class="text-muted">Progress</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-group list-group-flush">
+                        <a href="{% url 'accounts:my-profile' %}" 
+                           class="list-group-item list-group-item-action active">
+                            <i class="fas fa-user me-2"></i> Profile
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-graduation-cap me-2"></i> My Courses
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-lock me-2"></i> Password
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-certificate me-2"></i> Certificates
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-    <section class="user-dashboard-area">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="user-dashboard-box">
-                        <div class="user-dashboard-sidebar">
-                            <div class="user-box">
-                                <img src="{% static 'images/avatar.png' %}" alt="" class="img-fluid">
-                                <div class="name">
-                                    <div class="name">
-                                        {{ request.user.first_name }} {{ request.user.last_name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="user-dashboard-menu">
-                                <ul>
-                                    <li class="active">
-                                        <a href="{% url 'accounts:my-profile' %}">Profile</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Password</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="user-dashboard-content">
-                            <div class="content-title-box">
-                                <div class="title">Profile</div>
-                                <div class="subtitle">Add information about yourself to share on your profile.
-                                </div>
-                            </div>
-                            {% if form.errors %}
-                                {% for field in form %}
-                                    {% for error in field.errors %}
-                                        <div class="alert alert-danger alert-dismissable">
-                                            <a href="#" class="close" data-dismiss="alert"
-                                               aria-label="close">&times;</a>
-                                            <strong>{{ error|escape }}</strong>
-                                        </div>
-                                    {% endfor %}
-                                {% endfor %}
-                                {% for error in form.non_field_errors %}
-                                    <div class="alert alert-danger alert-dismissable">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                        <strong>{{ error|escape }}</strong>
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-transparent">
+                        <h5 class="mb-0">Profile Information</h5>
+                        <p class="text-muted small mb-0">Update your personal information and settings</p>
+                    </div>
+                    
+                    <div class="card-body">
+                        {% if form.errors %}
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        {{ error|escape }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
-                            {% endif %}
-                            <hr>
-                            <form action="#" method="post">
-                                {% csrf_token %}
-                                <div class="content-box">
-                                    <div class="basic-group">
-                                        <div class="form-group">
-                                            <label for="FristName">Basics:</label>
-                                            <input type="text" class="form-control" name="first_name" id="FristName"
-                                                   placeholder="first name" value="{{ user.first_name }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="last_name"
-                                                   placeholder="last name" value="{{ user.last_name }}">
-                                        </div>
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ error|escape }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <form method="POST" action="" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="firstName"
+                                               name="first_name"
+                                               value="{{ user.first_name|default:'' }}"
+                                               placeholder="Enter your first name">
                                     </div>
                                 </div>
-                                <div class="content-update-box">
-                                    <button type="submit" class="btn">Update</button>
+                                
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="lastName"
+                                               name="last_name"
+                                               value="{{ user.last_name|default:'' }}"
+                                               placeholder="Enter your last name">
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
+
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                        <input type="email" 
+                                               class="form-control" 
+                                               id="email"
+                                               value="{{ user.email }}"
+                                               readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                        <input type="tel" 
+                                               class="form-control" 
+                                               id="phone"
+                                               name="phone"
+                                               value="{{ user.phone|default:'' }}"
+                                               placeholder="Enter your phone number">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="fas fa-save mr-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+{% block extra_css %}
+<style>
+    .profile-section {
+        background-color: #f8f9fa;
+    }
+
+    .profile-image {
+        position: relative;
+        display: inline-block;
+    }
+
+    .upload-overlay {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: rgba(0,0,0,0.5);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .upload-overlay:hover {
+        background: rgba(0,0,0,0.7);
+    }
+
+    .upload-overlay i {
+        color: white;
+    }
+
+    .stat-item {
+        padding: 10px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 12px 20px;
+        transition: all 0.3s ease;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .list-group-item.active {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .input-group-text {
+        background-color: transparent;
+        border-right: none;
+    }
+
+    .form-control {
+        border-left: none;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #ced4da;
+    }
+
+    .btn-primary {
+        padding: 0.6rem 1.5rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.2);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Profile image upload preview
+    document.getElementById('profile-upload').addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.querySelector('.profile-image img').src = e.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+
+    // Form validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+{% endblock %}
 
 {% endblock %}
