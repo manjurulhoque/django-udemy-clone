@@ -1,0 +1,190 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} {{ title }}{{ block.super }}{% endblock title %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">{{ title }}</h2>
+                    
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ error|escape }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ error|escape }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" action="" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="id_{{ field.name }}" class="form-label">{{ field.label }}</label>
+                                <div class="input-group">
+                                    {% if field.name == 'username' or field.name == 'first_name' or field.name == 'last_name' %}
+                                        <span class="input-group-text">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                    {% elif 'password' in field.name %}
+                                        <span class="input-group-text">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    {% elif field.name == 'email' %}
+                                        <span class="input-group-text">
+                                            <i class="fas fa-envelope"></i>
+                                        </span>
+                                    {% endif %}
+                                    <input type="{{ field.field.widget.input_type }}"
+                                           class="form-control {% if field.errors %}is-invalid{% endif %}"
+                                           name="{{ field.name }}"
+                                           id="id_{{ field.name }}"
+                                           placeholder="{{ field.field.widget.attrs.placeholder }}"
+                                           {% if field.field.required %}required{% endif %}
+                                           {% if field.value %}value="{{ field.value }}"{% endif %}>
+                                    {% comment %} {% if field.help_text %}
+                                        <div class="form-text">{{ field.help_text }}</div>
+                                    {% endif %} {% endcomment %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                Create Account
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0">Already have an account? 
+                                <a href="{% url 'accounts:login' %}" class="text-primary fw-bold">Login Here</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        border-radius: 1rem;
+        border: none;
+    }
+    
+    .btn-primary {
+        padding: 0.8rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .input-group-text {
+        background-color: transparent;
+        border-right: none;
+    }
+    
+    .form-control {
+        border-left: none;
+    }
+    
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #ced4da;
+    }
+
+    .form-check-input:checked {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .form-text {
+        font-size: 0.875em;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Form validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+
+    // Password strength indicator
+    document.getElementById('id_password1').addEventListener('input', function() {
+        let password = this.value;
+        let strength = 0;
+        
+        if(password.length >= 8) strength += 1;
+        if(password.match(/[a-z]+/)) strength += 1;
+        if(password.match(/[A-Z]+/)) strength += 1;
+        if(password.match(/[0-9]+/)) strength += 1;
+        if(password.match(/[$@#&!]+/)) strength += 1;
+
+        let feedbackElement = this.nextElementSibling;
+        if(!feedbackElement.classList.contains('password-strength')) {
+            feedbackElement = document.createElement('div');
+            feedbackElement.classList.add('password-strength', 'form-text', 'mt-1');
+            this.parentNode.appendChild(feedbackElement);
+        }
+
+        switch(strength) {
+            case 0:
+            case 1:
+                feedbackElement.textContent = 'Weak password';
+                feedbackElement.style.color = '#dc3545';
+                break;
+            case 2:
+            case 3:
+                feedbackElement.textContent = 'Medium password';
+                feedbackElement.style.color = '#ffc107';
+                break;
+            case 4:
+            case 5:
+                feedbackElement.textContent = 'Strong password';
+                feedbackElement.style.color = '#198754';
+                break;
+        }
+    });
+</script>
+{% endblock %}

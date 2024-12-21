@@ -5,18 +5,29 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, FormView, RedirectView, ListView, DetailView, UpdateView
+from django.views.generic import (
+    CreateView,
+    FormView,
+    RedirectView,
+    ListView,
+    DetailView,
+    UpdateView
+)
 
 from courses.models import Category, Lesson, Course
 from udemy.models import Enroll
 from .models import User
-from .forms import UserRegistrationForm, UserLoginForm, ProfileUpdateForm
+from .forms import (
+    UserRegistrationForm,
+    UserLoginForm,
+    ProfileUpdateForm
+)
 
 
 class RegisterView(CreateView):
     model = User
     form_class = UserRegistrationForm
-    template_name = 'accounts/form.html'
+    template_name = 'accounts/register.html'
     success_url = '/login'
 
     extra_context = {
@@ -42,7 +53,7 @@ class RegisterView(CreateView):
             user.save()
             return redirect('accounts:login')
         else:
-            return render(request, 'accounts/form.html', {'form': user_form})
+            return render(request, 'accounts/register.html', {'form': user_form})
 
 
 class LoginView(FormView):
@@ -51,7 +62,7 @@ class LoginView(FormView):
     """
     success_url = '/'
     form_class = UserLoginForm
-    template_name = 'accounts/form.html'
+    template_name = 'accounts/login.html'
 
     extra_context = {
         'title': 'Login'

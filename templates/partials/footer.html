@@ -1,26 +1,170 @@
-<footer class="footer-area">
-    <div class="container-xl">
-        <div class="row">
-            <div class="col-md-6">
-                <ul class="nav justify-content-md-end footer-menu">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="">Privacy Policy</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="">Terms & Condition</a>
-                    </li>
-                </ul>
+<footer class="footer">
+    <div class="footer-top py-4">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-info">
+                        <h3>UdemyClone</h3>
+                        <p class="pb-3">
+                            <em>Your premier platform for online learning and skill development.</em>
+                        </p>
+                        <div class="social-links mt-3">
+                            <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <h4>Useful Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Courses</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h4>Popular Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Data Science</a></li>
+                        <li><a href="#">Mobile Development</a></li>
+                        <li><a href="#">Business</a></li>
+                        <li><a href="#">Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h4>Contact Us</h4>
+                    <p>
+                        <strong>Email:</strong> info@example.com<br>
+                        <strong>Phone:</strong> +1 5589 55488 55<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="copyright">
+                        &copy; <script>document.write(new Date().getFullYear())</script> <strong>UdemyClone</strong>. All Rights Reserved
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="credits text-md-end">
+                        Designed with <i class="fas fa-heart text-danger"></i> for learning
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </footer>
 
+<style>
+.footer {
+    background: #f8f9fa;
+    color: #444444;
+    font-size: 14px;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer-top {
+    background: #f9f9f9;
+    border-top: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.footer h4 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #012970;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.footer-links {
+    margin-bottom: 30px;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-links li {
+    padding: 8px 0;
+}
+
+.footer-links li:first-child {
+    padding-top: 0;
+}
+
+.footer-links a {
+    color: #013289;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+.social-links a {
+    font-size: 18px;
+    display: inline-block;
+    background: #013289;
+    color: white;
+    line-height: 36px;
+    margin-right: 10px;
+    border-radius: 50%;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+    transition: 0.3s;
+}
+
+.social-links a:hover {
+    background: #0d6efd;
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    background: #f1f1f1;
+}
+
+.copyright {
+    color: #013289;
+}
+
+.credits {
+    color: #013289;
+}
+
+/* Make footer stick to bottom when content is short */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex-shrink: 0;
+}
+</style>
 
 <!-- Modal -->
 <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-hidden="true">
